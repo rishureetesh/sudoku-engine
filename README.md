@@ -206,4 +206,4 @@ Tests: `src/games/sudoku/engine/tests/`
 
 ## License
 
-MIT © [Reetesh Kumar](https://github.com/reeteshkumar/sudoku-engine)
+MIT © [Reetesh Kumar](https://github.com/rishureetesh/sudoku-engine)
