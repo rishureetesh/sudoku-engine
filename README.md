@@ -2,6 +2,8 @@
 
 Sudoku generator and solver for TypeScript. You pass a 9×9 grid (`null` for blanks); it generates puzzles, checks moves, solves, and has helpers for hints and imports. No UI included.
 
+npm: [`@reetesh/sudoku-engine`](https://www.npmjs.com/package/@reetesh/sudoku-engine) · GitHub: [rishureetesh/sudoku-engine](https://github.com/rishureetesh/sudoku-engine)
+
 Runs on Node 18+, in the browser, or in a bundler. No runtime dependencies.
 
 ## Install
@@ -206,4 +208,4 @@ Tests: `src/games/sudoku/engine/tests/`
 
 ## License
 
-MIT © [Reetesh Kumar](https://github.com/rishureetesh/sudoku-engine)
+MIT © [Reetesh Kumar](https://github.com/rishureetesh)

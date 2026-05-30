@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "description": "Sudoku generator and solver for TypeScript",
   "license": "MIT",
-  "author": "Reetesh Kumar",
-  "homepage": "https://github.com/reeteshkumar/sudoku-engine#readme",
+  "author": "Reetesh Kumar (https://github.com/rishureetesh)",
+  "homepage": "https://github.com/rishureetesh/sudoku-engine#readme",
   "bugs": {
-    "url": "https://github.com/reeteshkumar/sudoku-engine/issues"
+    "url": "https://github.com/rishureetesh/sudoku-engine/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reeteshkumar/sudoku-engine.git"
+    "url": "git+https://github.com/rishureetesh/sudoku-engine.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "type": "module",
   "main": "./dist/index.cjs",
