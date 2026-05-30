@@ -1,0 +1,51 @@
+body {
+  font-family: system-ui, sans-serif;
+  margin: 2rem;
+  background: #111;
+  color: #eee;
+}
+
+.app {
+  max-width: 520px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(9, 2.5rem);
+  gap: 2px;
+}
+
+.cell {
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  font-size: 1.1rem;
+  border: 1px solid #444;
+  background: #222;
+  color: #fff;
+}
+
+.cell-given {
+  background: #333;
+  font-weight: 700;
+}
+
+.cell-incorrect {
+  background: #522;
+}
+
+.cell-player {
+  background: #243;
+}
+
+.win {
+  color: #6f6;
+  font-weight: 700;
+}
