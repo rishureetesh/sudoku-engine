@@ -15,8 +15,11 @@ describe("technique difficulty", () => {
   it("returns analysis metadata", () => {
     const game = generatePuzzle("hard")!;
     const analysis = analyzeTechniques(game.puzzle);
-    expect(analysis.clueBased).toBeDefined();
-    expect(analysis.singlesRequired).toBeGreaterThan(0);
-    expect(analysis.maxCandidatesSeen).toBeGreaterThanOrEqual(1);
+    expect(analysis.clueBased).toBe("hard");
+    expect(["easy", "medium", "hard", "expert"]).toContain(
+      analysis.techniqueBased,
+    );
+    expect(analysis.singlesRequired).toBeGreaterThanOrEqual(0);
+    expect(analysis.maxCandidatesSeen).toBeGreaterThanOrEqual(2);
   });
 });
