@@ -1,7 +1,7 @@
 {
   "name": "@reetesh/sudoku-engine",
-  "version": "1.0.0",
-  "description": "Sudoku generator and solver for TypeScript",
+  "version": "1.0.1",
+  "description": "Sudoku puzzle generator, solver, and game helpers for TypeScript — validation, hints, difficulty levels, batch generation",
   "license": "MIT",
   "author": "Reetesh Kumar (https://github.com/rishureetesh)",
   "homepage": "https://github.com/rishureetesh/sudoku-engine#readme",
@@ -59,11 +59,24 @@
   },
   "keywords": [
     "sudoku",
-    "puzzle",
-    "generator",
-    "solver",
-    "difficulty",
-    "typescript"
+    "sudoku-solver",
+    "sudoku-generator",
+    "sudoku-puzzle",
+    "sudoku-engine",
+    "puzzle-generator",
+    "puzzle-solver",
+    "puzzle-game",
+    "logic-puzzle",
+    "number-puzzle",
+    "grid-solver",
+    "game-engine",
+    "game-logic",
+    "daily-puzzle",
+    "sudoku-hints",
+    "validator",
+    "typescript",
+    "node",
+    "browser"
   ],
   "engines": {
     "node": ">=18"

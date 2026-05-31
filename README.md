@@ -188,7 +188,7 @@ Small React app: new game, daily puzzle, hints, cell states.
 
 ## Size
 
-Roughly 18 KB minified (ESM entry), tree-shakeable.
+Roughly 13 KB minified (ESM entry), tree-shakeable.
 
 ## Dev
 
@@ -204,7 +204,7 @@ Tests: `src/games/sudoku/engine/tests/`
 
 ## Changelog
 
-[CHANGELOG.md](CHANGELOG.md) — **1.0.0**
+[CHANGELOG.md](CHANGELOG.md) — **1.0.1**
 
 ## License
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 — 2026-05-30
+
+- Minified publish build (no source maps)
+- Broader npm keywords and description for search
+- CI: Node 22, fix flaky technique difficulty test
+
 ## 1.0.0 — 2026-05-30
 
 First release.
