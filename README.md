@@ -1,14 +1,31 @@
 # sudoku-engine
 
-Sudoku generator and solver for TypeScript. You pass a 9×9 grid (`null` for blanks); it generates puzzles, checks moves, solves, and has helpers for hints and imports. No UI included.
+Sudoku generator and solver for TypeScript. You pass a grid (`null` for blanks); it generates puzzles, checks moves, solves, and has helpers for hints and imports. The npm package is library-only — no bundled UI.
 
-Built by **[Reetesh Kumar](https://iamreetesh.com/me)** · [Play Sudoku on iamreetesh.com](https://iamreetesh.com/games/sudoku) · [Engine deep-dive](https://iamreetesh.com/blog/building-sudoku-engine)
+**[Reetesh Kumar](https://iamreetesh.com/me)** · [iamreetesh.com](https://iamreetesh.com) · [Play Sudoku (live demo)](https://iamreetesh.com/games/sudoku) · [Engine deep-dive](https://iamreetesh.com/blog/building-sudoku-engine)
 
 npm: [`@reetesh/sudoku-engine`](https://www.npmjs.com/package/@reetesh/sudoku-engine) · GitHub: [rishureetesh/sudoku-engine](https://github.com/rishureetesh/sudoku-engine)
 
 Docs: [Overview](https://github.com/rishureetesh/sudoku-engine/blob/main/docs/OVERVIEW.md) · [Architecture](https://github.com/rishureetesh/sudoku-engine/blob/main/docs/ARCHITECTURE.md) · [API](https://github.com/rishureetesh/sudoku-engine/blob/main/docs/API.md) · [Migration](https://github.com/rishureetesh/sudoku-engine/blob/main/docs/MIGRATION.md) · [Roadmap](https://github.com/rishureetesh/sudoku-engine/blob/main/docs/ROADMAP.md)
 
 Runs on Node 18+, in the browser, or in a bundler. No runtime dependencies.
+
+## Playground
+
+Try every feature in a real game — powered by this engine:
+
+**[iamreetesh.com/games/sudoku](https://iamreetesh.com/games/sudoku)**
+
+The live Sudoku PWA on [iamreetesh.com](https://iamreetesh.com) is the best way to explore what the library supports before wiring it into your own app:
+
+- All difficulty levels (easy → expert)
+- Notes / pencil marks, hints, undo & redo
+- Auto-save, resume, and offline play (PWA)
+- Clean, responsive UI on any screen size
+
+New game, daily puzzle, validation, and solving all run through `@reetesh/sudoku-engine` under the hood.
+
+About the author: **[iamreetesh.com/me](https://iamreetesh.com/me)**
 
 ## Install
 
@@ -205,13 +222,15 @@ generateBatch({
 
 ## Example
 
+Local React demo (optional):
+
 ```bash
 cd examples/react
 npm install
 npm run dev
 ```
 
-Small React app: new game, daily puzzle, hints, cell states.
+For a full-featured browser experience, use the **[live playground](https://iamreetesh.com/games/sudoku)** instead.
 
 ## API
 
@@ -239,4 +258,4 @@ Tests: `src/games/sudoku/engine/tests/`
 
 ## License
 
-MIT © [Reetesh Kumar](https://iamreetesh.com/me) · [iamreetesh.com](https://iamreetesh.com)
+MIT © [Reetesh Kumar](https://iamreetesh.com/me) · [Home](https://iamreetesh.com) · [Play Sudoku](https://iamreetesh.com/games/sudoku)
