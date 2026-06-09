@@ -38,7 +38,7 @@ describe("batch", () => {
       counts[item.difficulty]++;
     }
     expect(counts).toEqual({ easy: 1, medium: 1, hard: 1, expert: 1 });
-  }, 60_000);
+  });
 
   it("rejects batch count over maximum", () => {
     expect(() => generateBatch({ count: MAX_BATCH_SIZE + 1 })).toThrow(

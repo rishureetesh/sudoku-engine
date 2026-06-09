@@ -1,12 +1,8 @@
+import { getClassicEngine } from "../core/engine.js";
 import type { Board } from "../types/board.js";
-import { BitGrid } from "../internal/bitgrid.js";
-import { fillDiagonalBoxes, fillRemaining } from "./fillBoard.js";
+
+const engine = getClassicEngine();
 
 export function generateSolvedBoard(): Board {
-  const grid = BitGrid.empty();
-  fillDiagonalBoxes(grid);
-  if (!fillRemaining(grid, 0, 0)) {
-    return generateSolvedBoard();
-  }
-  return grid.toBoard();
+  return engine.generateSolvedBoard();
 }

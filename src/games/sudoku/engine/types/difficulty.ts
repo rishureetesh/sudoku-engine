@@ -1,4 +1,7 @@
 import type { Board } from "./board.js";
+import type { VariantId } from "./variant.js";
+
+export type { VariantId };
 
 export type Difficulty = "easy" | "medium" | "hard" | "expert";
 
@@ -28,4 +31,5 @@ export interface GenerateOneOptions {
 
 export interface SudokuEngineOptions {
   readonly seed?: number;
+  readonly variant?: VariantId;
 }

@@ -17,8 +17,8 @@ describe("symmetric generation", () => {
       for (let column = 0; column < 9; column++) {
         const mirrorRow = 8 - row;
         const mirrorCol = 8 - column;
-        expect(isEmpty(puzzle[row]![column])).toBe(
-          isEmpty(puzzle[mirrorRow]![mirrorCol]),
+        expect(isEmpty(puzzle[row]![column] ?? null)).toBe(
+          isEmpty(puzzle[mirrorRow]![mirrorCol] ?? null),
         );
       }
     }

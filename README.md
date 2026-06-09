@@ -2,7 +2,11 @@
 
 Sudoku generator and solver for TypeScript. You pass a 9×9 grid (`null` for blanks); it generates puzzles, checks moves, solves, and has helpers for hints and imports. No UI included.
 
+Built by **[Reetesh Kumar](https://iamreetesh.com/me)** · [Play Sudoku on iamreetesh.com](https://iamreetesh.com/games/sudoku) · [Engine deep-dive](https://iamreetesh.com/blog/building-sudoku-engine)
+
 npm: [`@reetesh/sudoku-engine`](https://www.npmjs.com/package/@reetesh/sudoku-engine) · GitHub: [rishureetesh/sudoku-engine](https://github.com/rishureetesh/sudoku-engine)
+
+Docs: [Overview](https://github.com/rishureetesh/sudoku-engine/blob/main/docs/OVERVIEW.md) · [Architecture](https://github.com/rishureetesh/sudoku-engine/blob/main/docs/ARCHITECTURE.md) · [API](https://github.com/rishureetesh/sudoku-engine/blob/main/docs/API.md) · [Migration](https://github.com/rishureetesh/sudoku-engine/blob/main/docs/MIGRATION.md) · [Roadmap](https://github.com/rishureetesh/sudoku-engine/blob/main/docs/ROADMAP.md)
 
 Runs on Node 18+, in the browser, or in a bundler. No runtime dependencies.
 
@@ -37,7 +41,34 @@ isSolvedCorrectly(solvedBoard, solution);
 - `solution` — full answer; keep server-side if you care about cheating
 - `playerBoard` — copy of `puzzle` that the player edits
 
-Generated puzzles have one solution.
+Every generated puzzle has one solution.
+
+## Variants (2.0)
+
+Classic 9×9 APIs are unchanged. For other rules, use `createEngine`:
+
+```ts
+import { createEngine } from "@reetesh/sudoku-engine";
+
+const classic = createEngine({ variant: "classic" });
+const mini = createEngine({ variant: "6x6" });       // 6×6, 2×3 boxes, digits 1–6
+const sudokuX = createEngine({ variant: "diagonal" }); // Sudoku X: unique diagonals
+const hyper = createEngine({ variant: "hyper" });       // Hyper: four extra 3×3 regions
+
+mini.generatePuzzle("easy");
+sudokuX.validateBoard(board);
+hyper.generatePuzzle("hard");
+```
+
+Batch generation with a variant:
+
+```ts
+import { SudokuEngine } from "@reetesh/sudoku-engine";
+
+new SudokuEngine({ variant: "6x6" }).generateBatch({ count: 8 });
+```
+
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/MIGRATION.md](docs/MIGRATION.md).
 
 ## Internals
 
@@ -184,7 +215,7 @@ Small React app: new game, daily puzzle, hints, cell states.
 
 ## API
 
-[docs/API.md](docs/API.md). Types in `dist/index.d.ts` after `npm run build`.
+[API reference](https://github.com/rishureetesh/sudoku-engine/blob/main/docs/API.md). Types in `dist/index.d.ts` after `npm run build`.
 
 ## Size
 
@@ -204,8 +235,8 @@ Tests: `src/games/sudoku/engine/tests/`
 
 ## Changelog
 
-[CHANGELOG.md](CHANGELOG.md) — **1.0.1**
+[CHANGELOG.md](CHANGELOG.md) — **2.0.0**
 
 ## License
 
-MIT © [Reetesh Kumar](https://github.com/rishureetesh)
+MIT © [Reetesh Kumar](https://iamreetesh.com/me) · [iamreetesh.com](https://iamreetesh.com)

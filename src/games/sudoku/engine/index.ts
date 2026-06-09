@@ -11,6 +11,7 @@ export type {
   GeneratedPuzzle,
   SolverResult,
   SudokuEngineOptions,
+  VariantId,
 } from "./types/index.js";
 
 export type { RevealResult, CellDisplayState } from "./hints/index.js";
@@ -20,6 +21,27 @@ export type {
   ImportValidationResult,
 } from "./import/index.js";
 export type { TechniqueAnalysis } from "./difficulty/index.js";
+export type {
+  SudokuVariant,
+  CreateEngineOptions,
+  MetaConstraint,
+  ClueRange,
+  ClueRanges,
+  GenerationProfile,
+} from "./core/variant.js";
+export type { PuzzleEngine } from "./core/engine.js";
+export type { GridSpec } from "./core/grid-spec.js";
+export type { House, HouseKind, HouseSet } from "./core/houses.js";
+
+export { createEngine, getClassicEngine } from "./core/engine.js";
+export {
+  CLASSIC_VARIANT,
+  SIX_BY_SIX_VARIANT,
+  DIAGONAL_VARIANT,
+  HYPER_VARIANT,
+  getVariant,
+  listVariants,
+} from "./variants/registry.js";
 
 export {
   BOX_SIZE,

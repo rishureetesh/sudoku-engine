@@ -1,10 +1,10 @@
 {
   "name": "@reetesh/sudoku-engine",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Sudoku puzzle generator, solver, and game helpers for TypeScript — validation, hints, difficulty levels, batch generation",
   "license": "MIT",
-  "author": "Reetesh Kumar (https://github.com/rishureetesh)",
-  "homepage": "https://github.com/rishureetesh/sudoku-engine#readme",
+  "author": "Reetesh Kumar (https://iamreetesh.com/me)",
+  "homepage": "https://iamreetesh.com/games/sudoku",
   "bugs": {
     "url": "https://github.com/rishureetesh/sudoku-engine/issues"
   },
@@ -50,10 +50,14 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test": "vitest run --exclude \"**/performance/**\"",
+    "test:watch": "vitest --exclude \"**/performance/**\"",
+    "test:coverage": "vitest run --coverage --exclude \"**/performance/**\"",
+    "perf": "vitest run src/games/sudoku/engine/tests/performance",
+    "perf:audit": "vitest run src/games/sudoku/engine/tests/performance/audit.test.ts",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src",
+    "typecheck:all": "tsc --noEmit -p tsconfig.all.json",
+    "lint": "eslint src vitest.config.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "prepublishOnly": "npm run build && npm run test"
   },
@@ -83,6 +87,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
+    "@vitest/coverage-v8": "^3.2.4",
     "eslint": "^9.28.0",
     "prettier": "^3.5.3",
     "tsup": "^8.4.0",

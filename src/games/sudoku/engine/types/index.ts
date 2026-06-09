@@ -14,3 +14,4 @@ export type {
   SudokuEngineOptions,
 } from "./difficulty.js";
 export type { GeneratePuzzleOptions } from "./generator.js";
+export type { VariantId } from "./variant.js";

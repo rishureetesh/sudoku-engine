@@ -1,8 +1,6 @@
+import { getClassicEngine } from "../core/engine.js";
 import type { Board } from "../types/board.js";
 import type { Digit } from "../types/cell.js";
-import { assertInBounds } from "../utils/coordinates.js";
-import { cloneBoard } from "../utils/board.js";
-import { isGiven } from "./isGiven.js";
 
 export interface RevealResult {
   readonly board: Board;
@@ -11,6 +9,8 @@ export interface RevealResult {
   readonly value: Digit;
 }
 
+const engine = getClassicEngine();
+
 export function revealCell(
   board: Board,
   solution: Board,
@@ -18,23 +18,12 @@ export function revealCell(
   column: number,
   puzzle?: Board,
 ): RevealResult | null {
-  assertInBounds(row, column);
-
-  if (puzzle && isGiven(puzzle, row, column)) {
+  const result = engine.revealCell(board, solution, row, column, puzzle);
+  if (!result) {
     return null;
   }
-
-  const value = solution[row]![column] ?? null;
-  if (value === null) {
-    return null;
-  }
-
-  if (board[row]![column] === value) {
-    return null;
-  }
-
-  const next = cloneBoard(board);
-  next[row]![column] = value as Digit;
-
-  return { board: next, row, column, value: value as Digit };
+  return {
+    ...result,
+    value: result.value as Digit,
+  };
 }

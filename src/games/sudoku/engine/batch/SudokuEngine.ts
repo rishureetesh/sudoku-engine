@@ -1,5 +1,5 @@
+import { createEngine } from "../core/engine.js";
 import { DIFFICULTIES } from "../constants/difficulty.js";
-import { generatePuzzle } from "../generator/generatePuzzle.js";
 import {
   clearGlobalSeed,
   setGlobalSeed,
@@ -13,6 +13,7 @@ import type {
   SudokuEngineOptions,
 } from "../types/difficulty.js";
 import { assertBatchCount, SudokuEngineError } from "./errors.js";
+import type { PuzzleEngine } from "../core/engine.js";
 
 export function resolveDistribution(
   count: number,
@@ -55,9 +56,11 @@ export function resolveDistribution(
 
 export class SudokuEngine {
   private readonly seed?: number;
+  private readonly engine: PuzzleEngine;
 
   constructor(options?: SudokuEngineOptions) {
     this.seed = options?.seed;
+    this.engine = createEngine({ variant: options?.variant ?? "classic" });
   }
 
   generateOne(options: GenerateOneOptions): GeneratedPuzzle {
@@ -105,7 +108,7 @@ export class SudokuEngine {
     maxRetries: number,
   ): GeneratedPuzzle {
     for (let i = 0; i < maxRetries; i++) {
-      const puzzle = generatePuzzle(difficulty);
+      const puzzle = this.engine.generatePuzzle(difficulty);
       if (puzzle && puzzle.difficulty === difficulty) {
         return puzzle;
       }
