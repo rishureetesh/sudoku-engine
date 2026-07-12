@@ -1,6 +1,6 @@
 {
   "name": "@reetesh/sudoku-engine",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Sudoku puzzle generator, solver, and game helpers for TypeScript — validation, hints, difficulty levels, batch generation",
   "license": "MIT",
   "author": "Reetesh Kumar (https://iamreetesh.com/me)",
@@ -67,6 +67,9 @@
     "sudoku-generator",
     "sudoku-puzzle",
     "sudoku-engine",
+    "windoku",
+    "jigsaw-sudoku",
+    "hyper-sudoku",
     "puzzle-generator",
     "puzzle-solver",
     "puzzle-game",

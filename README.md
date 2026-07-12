@@ -60,7 +60,7 @@ isSolvedCorrectly(solvedBoard, solution);
 
 Every generated puzzle has one solution.
 
-## Variants (2.0)
+## Variants (2.1)
 
 Classic 9×9 APIs are unchanged. For other rules, use `createEngine`:
 
@@ -70,11 +70,15 @@ import { createEngine } from "@reetesh/sudoku-engine";
 const classic = createEngine({ variant: "classic" });
 const mini = createEngine({ variant: "6x6" });       // 6×6, 2×3 boxes, digits 1–6
 const sudokuX = createEngine({ variant: "diagonal" }); // Sudoku X: unique diagonals
-const hyper = createEngine({ variant: "hyper" });       // Hyper: four extra 3×3 regions
+const hyper = createEngine({ variant: "hyper" });       // Hyper: four edge-centered 3×3 regions
+const windoku = createEngine({ variant: "windoku" });   // Windoku: four inner-corner 3×3 windows
+const jigsaw = createEngine({ variant: "jigsaw" });     // Jigsaw: irregular regions
 
 mini.generatePuzzle("easy");
 sudokuX.validateBoard(board);
 hyper.generatePuzzle("hard");
+windoku.generatePuzzle("easy");
+jigsaw.generatePuzzle("easy");
 ```
 
 Batch generation with a variant:
@@ -254,7 +258,7 @@ Tests: `src/games/sudoku/engine/tests/`
 
 ## Changelog
 
-[CHANGELOG.md](CHANGELOG.md) — **2.0.0**
+[CHANGELOG.md](CHANGELOG.md) — **2.1.0**
 
 ## License
 

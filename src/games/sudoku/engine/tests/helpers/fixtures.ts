@@ -64,15 +64,26 @@ export function fixtureSolvedBoard(variant: VariantId): Board {
   const cache = store();
   let game = cache.puzzles.get(key);
   if (!game) {
-    withVariantSeed(variant, () => {
-      const board = createEngine({ variant }).generateSolvedBoard();
+    // Prefer reusing an already-warmed easy puzzle solution (avoids a second fill).
+    const easy = cache.puzzles.get(`${variant}:easy`);
+    if (easy) {
       game = {
         difficulty: "easy",
         clueCount: 0,
-        puzzle: board,
-        solution: board,
+        puzzle: easy.solution,
+        solution: easy.solution,
       };
-    });
+    } else {
+      withVariantSeed(variant, () => {
+        const board = createEngine({ variant }).generateSolvedBoard();
+        game = {
+          difficulty: "easy",
+          clueCount: 0,
+          puzzle: board,
+          solution: board,
+        };
+      });
+    }
     cache.puzzles.set(key, game!);
   }
   return game!.solution.map((row) => [...row]);

@@ -48,17 +48,26 @@ export function countSolutionsBitGrid(
 }
 
 /** Counts solutions while mutating `grid`; caller must undo or discard changes. */
-export function countSolutionsOnGrid(grid: BitGrid, limit = 2): number {
-  return countSolutionsRecursive(grid, 0, limit);
+export function countSolutionsOnGrid(
+  grid: BitGrid,
+  limit = 2,
+  budget?: { left: number },
+): number {
+  return countSolutionsRecursive(grid, 0, limit, budget);
 }
 
 function countSolutionsRecursive(
   grid: BitGrid,
   found: number,
   limit: number,
+  budget?: { left: number },
 ): number {
   if (found >= limit) {
     return found;
+  }
+  if (budget && budget.left-- <= 0) {
+    // Budget exhausted — treat as ambiguous so carving keeps the clue.
+    return Math.max(found, 2);
   }
 
   const next = grid.findMrv();
@@ -73,7 +82,7 @@ function countSolutionsRecursive(
 
   for (const digit of maskToDigits(grid.variant.grid, mask)) {
     grid.place(row, column, digit);
-    found = countSolutionsRecursive(grid, found, limit);
+    found = countSolutionsRecursive(grid, found, limit, budget);
     if (found >= limit) {
       grid.clear(row, column);
       return found;

@@ -26,6 +26,10 @@ export interface GenerationProfile {
   readonly puzzleFallbackAttempts: number;
   readonly carveMaxAttempts: number;
   readonly tryFullClueRange: boolean;
+  /** Max MRV nodes when filling a solved board; exhausted budget retries. */
+  readonly fillNodeBudget: number;
+  /** Max MRV nodes per uniqueness check while carving; exhausted ⇒ keep clue. */
+  readonly carveNodeBudget: number;
 }
 
 export const DEFAULT_GENERATION: GenerationProfile = {
@@ -33,6 +37,8 @@ export const DEFAULT_GENERATION: GenerationProfile = {
   puzzleFallbackAttempts: 30,
   carveMaxAttempts: 200,
   tryFullClueRange: false,
+  fillNodeBudget: 50_000,
+  carveNodeBudget: 100_000,
 };
 
 export const TIGHT_GENERATION: GenerationProfile = {
@@ -40,6 +46,18 @@ export const TIGHT_GENERATION: GenerationProfile = {
   puzzleFallbackAttempts: 20,
   carveMaxAttempts: 400,
   tryFullClueRange: true,
+  fillNodeBudget: 50_000,
+  carveNodeBudget: 80_000,
+};
+
+/** Irregular regions: prefer more fill retries, fewer carve probes per board. */
+export const JIGSAW_GENERATION: GenerationProfile = {
+  puzzleMaxAttempts: 32,
+  puzzleFallbackAttempts: 24,
+  carveMaxAttempts: 100,
+  tryFullClueRange: true,
+  fillNodeBudget: 25_000,
+  carveNodeBudget: 25_000,
 };
 
 export interface SudokuVariant {
@@ -52,6 +70,8 @@ export interface SudokuVariant {
   readonly techniqueHeuristics: TechniqueHeuristics;
   readonly generation: GenerationProfile;
   readonly seedRegionStarts: readonly { readonly row: number; readonly column: number }[];
+  /** When set, seed by filling these houses instead of rectangular boxes. */
+  readonly seedHouseIds?: readonly string[];
 }
 
 export interface CreateEngineOptions {

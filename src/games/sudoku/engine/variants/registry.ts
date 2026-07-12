@@ -5,6 +5,8 @@ import {
   standardSudokuHouses,
   diagonalSudokuHouses,
   hyperSudokuHouses,
+  windokuSudokuHouses,
+  jigsawSudokuHouses,
   validateHouseSet,
 } from "../core/houses.js";
 import type {
@@ -17,6 +19,7 @@ import type {
 import {
   DEFAULT_GENERATION,
   TIGHT_GENERATION,
+  JIGSAW_GENERATION,
 } from "../core/variant.js";
 
 const CLASSIC_CLUE_RANGES: ClueRanges = {
@@ -62,6 +65,7 @@ function buildVariant(
   techniqueHeuristics: TechniqueHeuristics,
   seedRegionStarts: readonly { row: number; column: number }[],
   generation: GenerationProfile = DEFAULT_GENERATION,
+  seedHouseIds?: readonly string[],
 ): SudokuVariant {
   validateHouseSet(grid, houses);
   return {
@@ -74,6 +78,7 @@ function buildVariant(
     techniqueHeuristics,
     generation,
     seedRegionStarts,
+    ...(seedHouseIds ? { seedHouseIds } : {}),
   };
 }
 
@@ -134,11 +139,42 @@ export const HYPER_VARIANT = buildVariant(
   TIGHT_GENERATION,
 );
 
+export const WINDOKU_CLUE_RANGES: ClueRanges = TIGHT_CLUE_RANGES;
+
+export const WINDOKU_VARIANT = buildVariant(
+  "windoku",
+  "Windoku",
+  CLASSIC_GRID,
+  windokuSudokuHouses(CLASSIC_GRID),
+  WINDOKU_CLUE_RANGES,
+  17,
+  CLASSIC_TECHNIQUES,
+  [{ row: 0, column: 0 }],
+  TIGHT_GENERATION,
+);
+
+export const JIGSAW_CLUE_RANGES: ClueRanges = TIGHT_CLUE_RANGES;
+
+export const JIGSAW_VARIANT = buildVariant(
+  "jigsaw",
+  "Jigsaw Sudoku",
+  CLASSIC_GRID,
+  jigsawSudokuHouses(CLASSIC_GRID),
+  JIGSAW_CLUE_RANGES,
+  17,
+  CLASSIC_TECHNIQUES,
+  [],
+  JIGSAW_GENERATION,
+  ["region-0"],
+);
+
 const VARIANTS: Record<VariantId, SudokuVariant> = {
   classic: CLASSIC_VARIANT,
   "6x6": SIX_BY_SIX_VARIANT,
   diagonal: DIAGONAL_VARIANT,
   hyper: HYPER_VARIANT,
+  windoku: WINDOKU_VARIANT,
+  jigsaw: JIGSAW_VARIANT,
 };
 
 export function getVariant(id: VariantId): SudokuVariant {

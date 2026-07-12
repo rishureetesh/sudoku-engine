@@ -11,6 +11,8 @@ describe("variant registry", () => {
       "classic",
       "diagonal",
       "hyper",
+      "jigsaw",
+      "windoku",
     ]);
   });
 

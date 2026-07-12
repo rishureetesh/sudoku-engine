@@ -17,6 +17,7 @@ export type HouseKind =
   | "region"
   | "diagonal"
   | "hyper"
+  | "windoku"
   | "custom";
 
 export interface HouseSet {
@@ -162,6 +163,109 @@ export function hyperSudokuHouses(grid: GridSpec): HouseSet {
     ...buildColumnHouses(grid),
     ...buildRegionHouses(grid),
     ...buildHyperRegionHouses(grid),
+  ]);
+}
+
+/** Four 3×3 windows at the corners of the inner 7×7 (standard Windoku). */
+export function buildWindokuRegionHouses(grid: GridSpec): House[] {
+  if (grid.size !== 9 || grid.boxRows !== 3 || grid.boxCols !== 3) {
+    throw new Error("Windoku regions require a 9×9 grid with 3×3 boxes");
+  }
+
+  return [
+    buildRectangularHouse(grid, "windoku-tl", 1, 1, 3, 3, "windoku"),
+    buildRectangularHouse(grid, "windoku-tr", 1, 5, 3, 3, "windoku"),
+    buildRectangularHouse(grid, "windoku-bl", 5, 1, 3, 3, "windoku"),
+    buildRectangularHouse(grid, "windoku-br", 5, 5, 3, 3, "windoku"),
+  ];
+}
+
+export function windokuSudokuHouses(grid: GridSpec): HouseSet {
+  return composeHouses(grid, [
+    ...buildRowHouses(grid),
+    ...buildColumnHouses(grid),
+    ...buildRegionHouses(grid),
+    ...buildWindokuRegionHouses(grid),
+  ]);
+}
+
+/**
+ * Built-in irregular region map for the `jigsaw` preset.
+ * Each entry is a region id 0–8; every region has exactly nine cells.
+ */
+export const DEFAULT_JIGSAW_REGION_MAP: readonly (readonly number[])[] = [
+  [0, 0, 0, 0, 1, 1, 1, 1, 1],
+  [0, 0, 0, 0, 0, 1, 1, 2, 1],
+  [3, 3, 3, 4, 4, 2, 2, 2, 1],
+  [3, 3, 4, 4, 4, 2, 2, 2, 2],
+  [3, 3, 4, 5, 5, 2, 6, 6, 6],
+  [3, 4, 4, 5, 5, 5, 5, 6, 6],
+  [3, 4, 7, 5, 5, 5, 8, 6, 6],
+  [7, 7, 7, 7, 8, 8, 8, 6, 6],
+  [7, 7, 7, 7, 8, 8, 8, 8, 8],
+];
+
+/**
+ * Build region houses from a `size×size` map of region ids.
+ * Expects exactly `size` regions, each with exactly `size` cells.
+ */
+export function buildIrregularRegionHouses(
+  grid: GridSpec,
+  regionMap: readonly (readonly number[])[],
+): House[] {
+  if (regionMap.length !== grid.size) {
+    throw new Error(
+      `Region map must have ${grid.size} rows, got ${regionMap.length}`,
+    );
+  }
+
+  const cellsByRegion: number[][] = Array.from(
+    { length: grid.size },
+    () => [],
+  );
+
+  for (let row = 0; row < grid.size; row++) {
+    const mapRow = regionMap[row];
+    if (!mapRow || mapRow.length !== grid.size) {
+      throw new Error(
+        `Region map row ${row} must have ${grid.size} columns`,
+      );
+    }
+    for (let column = 0; column < grid.size; column++) {
+      const regionId = mapRow[column]!;
+      if (regionId < 0 || regionId >= grid.size) {
+        throw new Error(
+          `Region id ${regionId} at (${row},${column}) is out of range`,
+        );
+      }
+      cellsByRegion[regionId]!.push(cellIndex(grid, row, column));
+    }
+  }
+
+  for (let regionId = 0; regionId < grid.size; regionId++) {
+    const cells = cellsByRegion[regionId]!;
+    if (cells.length !== grid.size) {
+      throw new Error(
+        `Region ${regionId} must have ${grid.size} cells, got ${cells.length}`,
+      );
+    }
+  }
+
+  return cellsByRegion.map((cells, regionId) => ({
+    id: `region-${regionId}`,
+    kind: "region" as const,
+    cells,
+  }));
+}
+
+export function jigsawSudokuHouses(
+  grid: GridSpec,
+  regionMap: readonly (readonly number[])[] = DEFAULT_JIGSAW_REGION_MAP,
+): HouseSet {
+  return composeHouses(grid, [
+    ...buildRowHouses(grid),
+    ...buildColumnHouses(grid),
+    ...buildIrregularRegionHouses(grid, regionMap),
   ]);
 }
 

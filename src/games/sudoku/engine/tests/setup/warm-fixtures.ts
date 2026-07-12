@@ -1,14 +1,11 @@
-import { ALL_VARIANTS } from "../helpers/variants.js";
 import {
   fixturePuzzle,
   fixtureSolvedBoard,
-  hyperSolvedBoard,
 } from "../helpers/fixtures.js";
 
-/** Pre-warm expensive variant fixtures once per worker before any test file runs. */
-for (const variant of ALL_VARIANTS) {
+/** Warm cheap classic-family fixtures; tight variants generate lazily. */
+for (const variant of ["classic", "6x6", "diagonal"] as const) {
   fixturePuzzle(variant, "easy");
   fixturePuzzle(variant, "medium");
   fixtureSolvedBoard(variant);
 }
-hyperSolvedBoard();

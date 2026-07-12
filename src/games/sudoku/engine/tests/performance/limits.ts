@@ -5,13 +5,15 @@ export interface PerfLimits {
 }
 
 export const PERF_LIMITS: Record<
-  "classic" | "6x6" | "diagonal" | "hyper",
+  "classic" | "6x6" | "diagonal" | "hyper" | "windoku" | "jigsaw",
   PerfLimits
 > = {
   classic: { solve: 150, generate: 800, candidates: 15 },
   "6x6": { solve: 80, generate: 400, candidates: 50 },
   diagonal: { solve: 200, generate: 4000, candidates: 20 },
   hyper: { solve: 200, generate: 3000, candidates: 25 },
+  windoku: { solve: 200, generate: 3000, candidates: 25 },
+  jigsaw: { solve: 200, generate: 4000, candidates: 25 },
 };
 
 export function medianMs(run: () => void, samples = 3): number {

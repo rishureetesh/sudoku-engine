@@ -23,12 +23,12 @@ import {
   DIAGONAL_VARIANT,
 } from "@reetesh/sudoku-engine";
 
-const engine = createEngine({ variant: "classic" | "6x6" | "diagonal" | "hyper" });
+const engine = createEngine({ variant: "classic" | "6x6" | "diagonal" | "hyper" | "windoku" | "jigsaw" });
 listVariants(); // readonly SudokuVariant[]
 getVariant("diagonal"); // SudokuVariant metadata
 ```
 
-Top-level exports (`solve`, `generatePuzzle`, …) always target **classic 9×9**. Use `createEngine` for 6×6 or Sudoku X.
+Top-level exports (`solve`, `generatePuzzle`, …) always target **classic 9×9**. Use `createEngine` for other variants.
 
 See [OVERVIEW.md](./OVERVIEW.md) and [ARCHITECTURE.md](./ARCHITECTURE.md).
 
@@ -40,7 +40,7 @@ Creates a variant-scoped `PuzzleEngine`.
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `options.variant` | `"classic" \| "6x6" \| "diagonal" \| "hyper"` | `"classic"` | Preset ruleset |
+| `options.variant` | `"classic" \| "6x6" \| "diagonal" \| "hyper" \| "windoku" \| "jigsaw"` | `"classic"` | Preset ruleset |
 
 **Returns:** `PuzzleEngine`
 
@@ -195,7 +195,7 @@ engine.generateOne({ difficulty, symmetric? });
 | `Board` | `(Digit \| null)[][]` |
 | `Digit` | `number` (variant-specific: 1–9 or 1–6) |
 | `Difficulty` | `"easy" \| "medium" \| "hard" \| "expert"` |
-| `VariantId` | `"classic" \| "6x6" \| "diagonal" \| "hyper"` |
+| `VariantId` | `"classic" \| "6x6" \| "diagonal" \| "hyper" \| "windoku" \| "jigsaw"` |
 | `SudokuVariant` | Full variant metadata |
 | `PuzzleEngine` | Variant-scoped API surface |
 | `SolverResult` | `{ solved: boolean; board: Board }` |
@@ -229,6 +229,8 @@ createEngine({ variant: "classic" });
 createEngine({ variant: "6x6" });
 createEngine({ variant: "diagonal" });
 createEngine({ variant: "hyper" });
+createEngine({ variant: "windoku" });
+createEngine({ variant: "jigsaw" });
 ```
 
 Full pipeline:

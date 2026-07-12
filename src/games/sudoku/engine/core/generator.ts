@@ -14,9 +14,9 @@ import {
 } from "./difficulty.js";
 import {
   countSolutionsOnGrid,
-  solve,
 } from "./solver.js";
 import { shuffle } from "../utils/random.js";
+import { indexToColumn, indexToRow } from "./grid-spec.js";
 
 export function generateSolvedBoard(variant: SudokuVariant): Board {
   const maxAttempts = variant.generation.tryFullClueRange ? 40 : 20;
@@ -24,21 +24,57 @@ export function generateSolvedBoard(variant: SudokuVariant): Board {
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     const grid = BitGrid.empty(variant);
 
-    for (const start of variant.seedRegionStarts) {
-      fillRegion(grid, start.row, start.column);
+    if (variant.seedHouseIds && variant.seedHouseIds.length > 0) {
+      for (const houseId of variant.seedHouseIds) {
+        fillHouse(grid, houseId);
+      }
+    } else {
+      for (const start of variant.seedRegionStarts) {
+        fillRegion(grid, start.row, start.column);
+      }
     }
 
     if (hasDeadCell(grid)) {
       continue;
     }
 
-    const result = solve(variant, grid.toBoard());
-    if (result.solved) {
-      return result.board;
+    // Budgeted shuffled MRV — avoids pathological fixed digit order and
+    // unbounded backtracking on awkward seeds (especially jigsaw).
+    const budget = { left: variant.generation.fillNodeBudget };
+    if (fillWithShuffledMrv(grid, budget)) {
+      return grid.toBoard();
     }
   }
 
   throw new Error("Could not fill a solved board");
+}
+
+function fillWithShuffledMrv(
+  grid: BitGrid,
+  budget: { left: number },
+): boolean {
+  if (budget.left-- <= 0) {
+    return false;
+  }
+
+  const next = grid.findMrv();
+  if (!next) {
+    return grid.isComplete();
+  }
+
+  const { row, column, mask } = next;
+  for (const digit of shuffle(maskToDigits(grid.variant.grid, mask))) {
+    grid.place(row, column, digit);
+    if (fillWithShuffledMrv(grid, budget)) {
+      return true;
+    }
+    grid.clear(row, column);
+    if (budget.left <= 0) {
+      return false;
+    }
+  }
+
+  return false;
 }
 
 function hasDeadCell(grid: BitGrid): boolean {
@@ -70,6 +106,30 @@ function fillRegion(
   }
 }
 
+function fillHouse(grid: BitGrid, houseId: string): void {
+  const house = grid.variant.houses.houses.find((h) => h.id === houseId);
+  if (!house) {
+    throw new Error(`Unknown seed house: ${houseId}`);
+  }
+  if (house.cells.length !== grid.variant.grid.digitCount) {
+    throw new Error(
+      `Seed house ${houseId} must have ${grid.variant.grid.digitCount} cells`,
+    );
+  }
+
+  const nums = shuffle(
+    maskToDigits(grid.variant.grid, grid.variant.grid.fullMask),
+  );
+  for (let i = 0; i < house.cells.length; i++) {
+    const cell = house.cells[i]!;
+    grid.place(
+      indexToRow(grid.variant.grid, cell),
+      indexToColumn(grid.variant.grid, cell),
+      nums[i]!,
+    );
+  }
+}
+
 export function removeCells(
   variant: SudokuVariant,
   solution: Board,
@@ -93,7 +153,8 @@ export function removeCells(
     grid.clear(row, column);
     attempts++;
 
-    if (countSolutionsOnGrid(grid, 2) === 1) {
+    const budget = { left: variant.generation.carveNodeBudget };
+    if (countSolutionsOnGrid(grid, 2, budget) === 1) {
       clues--;
     } else {
       grid.place(row, column, backup);
@@ -152,7 +213,8 @@ export function removeCellsSymmetric(
     }
     attempts++;
 
-    if (countSolutionsOnGrid(grid, 2) !== 1) {
+    const budget = { left: variant.generation.carveNodeBudget };
+    if (countSolutionsOnGrid(grid, 2, budget) !== 1) {
       for (let i = 0; i < group.length; i++) {
         const cell = group[i]!;
         grid.place(cell.row, cell.column, backups[i]!);
@@ -273,7 +335,8 @@ function removeCellsRelaxed(
     const backup = grid.cells[grid.index(row, column)]!;
     grid.clear(row, column);
 
-    if (countSolutionsOnGrid(grid, 2) === 1) {
+    const budget = { left: variant.generation.carveNodeBudget };
+    if (countSolutionsOnGrid(grid, 2, budget) === 1) {
       clues--;
     } else {
       grid.place(row, column, backup);

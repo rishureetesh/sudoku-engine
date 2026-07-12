@@ -9,19 +9,17 @@ import type { GeneratedPuzzle } from "../../types/difficulty.js";
 import type { VariantId } from "../../types/variant.js";
 import { setGlobalSeed, clearGlobalSeed } from "../../utils/random.js";
 import { ALL_VARIANTS, engineFor } from "../helpers/variants.js";
+import { VARIANT_TEST_SEEDS, testDifficulty } from "../helpers/seeded.js";
 import type { PuzzleEngine } from "../../core/engine.js";
-
-const SEEDS: Record<VariantId, number> = {
-  classic: 42,
-  "6x6": 42,
-  diagonal: 42,
-  hyper: 103,
-};
 
 function once(run: () => void): number {
   const t0 = performance.now();
   run();
   return performance.now() - t0;
+}
+
+function auditDifficulty(variant: VariantId) {
+  return testDifficulty(variant, "medium");
 }
 
 describe("performance audit (report only)", () => {
@@ -31,9 +29,9 @@ describe("performance audit (report only)", () => {
       let puzzle: GeneratedPuzzle;
 
       beforeAll(() => {
-        setGlobalSeed(SEEDS[variant]);
+        setGlobalSeed(VARIANT_TEST_SEEDS[variant]);
         engine = engineFor(variant);
-        const game = engine.generatePuzzle(variant === "hyper" ? "easy" : "medium");
+        const game = engine.generatePuzzle(auditDifficulty(variant));
         if (!game) {
           throw new Error(`generatePuzzle returned null for ${variant}`);
         }
@@ -42,16 +40,14 @@ describe("performance audit (report only)", () => {
       });
 
       it("prints timings", () => {
-        setGlobalSeed(SEEDS[variant]);
+        setGlobalSeed(VARIANT_TEST_SEEDS[variant]);
         engine.generateSolvedBoard();
         const size = engine.variant.grid.size;
         const row: Record<string, number> = {
           houses: engine.variant.houses.houses.length,
           generateSolvedBoard: once(() => engine.generateSolvedBoard()),
           generatePuzzle: once(() => {
-            const g = engine.generatePuzzle(
-              variant === "hyper" ? "easy" : "medium",
-            );
+            const g = engine.generatePuzzle(auditDifficulty(variant));
             if (!g) throw new Error("null");
           }),
           solve: once(() => engine.solve(puzzle.puzzle)),

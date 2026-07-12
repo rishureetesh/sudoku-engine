@@ -65,4 +65,4 @@ new SudokuEngine({ variant: "6x6", seed: 42 }).generateBatch({ count: 8 });
 
 ## Future variants
 
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for house-based extension and planned meta-constraints (Killer, Thermo, Kropki).
+See [ROADMAP.md](./ROADMAP.md). Windoku and Jigsaw shipped in 2.1; Killer / Thermo / Kropki still need meta-constraints ([ARCHITECTURE.md](./ARCHITECTURE.md)).

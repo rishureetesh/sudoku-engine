@@ -3,6 +3,7 @@ import type { Difficulty } from "../../types/difficulty.js";
 import type { VariantId } from "../../types/variant.js";
 import { setGlobalSeed, clearGlobalSeed } from "../../utils/random.js";
 import { ALL_VARIANTS, engineFor } from "../helpers/variants.js";
+import { VARIANT_TEST_SEEDS } from "../helpers/seeded.js";
 import { medianMs, PERF_LIMITS } from "./limits.js";
 
 const GENERATE_DIFFICULTY: Record<VariantId, Difficulty> = {
@@ -10,18 +11,13 @@ const GENERATE_DIFFICULTY: Record<VariantId, Difficulty> = {
   "6x6": "medium",
   diagonal: "medium",
   hyper: "easy",
-};
-
-const BENCH_SEEDS: Record<VariantId, number> = {
-  classic: 42,
-  "6x6": 42,
-  diagonal: 42,
-  hyper: 103,
+  windoku: "easy",
+  jigsaw: "easy",
 };
 
 describe("performance benchmarks", () => {
   it.each(ALL_VARIANTS)("%s solve under budget", (variant) => {
-    setGlobalSeed(BENCH_SEEDS[variant]);
+    setGlobalSeed(VARIANT_TEST_SEEDS[variant]);
     try {
       const engine = engineFor(variant);
       const game = engine.generatePuzzle(GENERATE_DIFFICULTY[variant])!;
@@ -36,7 +32,7 @@ describe("performance benchmarks", () => {
   });
 
   it.each(ALL_VARIANTS)("%s generate under budget", (variant) => {
-    setGlobalSeed(BENCH_SEEDS[variant]);
+    setGlobalSeed(VARIANT_TEST_SEEDS[variant]);
     try {
       const engine = engineFor(variant);
       const elapsed = medianMs(() => {
@@ -50,7 +46,7 @@ describe("performance benchmarks", () => {
   });
 
   it.each(ALL_VARIANTS)("%s candidates under budget", (variant) => {
-    setGlobalSeed(BENCH_SEEDS[variant]);
+    setGlobalSeed(VARIANT_TEST_SEEDS[variant]);
     try {
       const engine = engineFor(variant);
       const game = engine.generatePuzzle("easy")!;

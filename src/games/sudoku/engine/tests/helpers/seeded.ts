@@ -8,6 +8,8 @@ export const VARIANT_TEST_SEEDS: Record<VariantId, number> = {
   "6x6": 42,
   diagonal: 42,
   hyper: 103,
+  windoku: 42,
+  jigsaw: 107,
 };
 
 export const CLASSIC_TEST_SEED = 42;
@@ -35,7 +37,9 @@ export function testDifficulty(
   variant: VariantId,
   preferred: Difficulty,
 ): Difficulty {
-  if (variant === "hyper") return "easy";
+  if (variant === "hyper" || variant === "windoku" || variant === "jigsaw") {
+    return "easy";
+  }
   if (variant === "diagonal" && preferred === "hard") return "medium";
   return preferred;
 }

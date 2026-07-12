@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.1.0 — 2026-07-12
+
+### Variants
+
+- **Windoku** (`createEngine({ variant: "windoku" })`) — classic houses plus four inner 3×3 windows at `(1,1)`, `(1,5)`, `(5,1)`, `(5,5)` (distinct from Hyper’s edge-centered windows)
+- **Jigsaw** (`createEngine({ variant: "jigsaw" })`) — rows, columns, and a built-in irregular 9-region map (no standard 3×3 boxes)
+- Public helpers: `buildWindokuRegionHouses`, `buildIrregularRegionHouses`, `jigsawSudokuHouses`, `windokuSudokuHouses`, `DEFAULT_JIGSAW_REGION_MAP`
+- Optional `seedHouseIds` on `SudokuVariant` for irregular-region seeding
+- Budgeted shuffled MRV fill + carve uniqueness budgets (`fillNodeBudget` / `carveNodeBudget`)
+- `JIGSAW_GENERATION` profile to keep irregular generation bounded across seeds
+
+### Docs
+
+- Overview, API, architecture, and roadmap updated for Windoku and Jigsaw
+
 ## 2.0.0 — 2026-05-30
 
 Major release: variant framework with **classic**, **6×6**, **diagonal** (Sudoku X), and **hyper** Sudoku.

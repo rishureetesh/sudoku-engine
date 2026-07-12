@@ -8,13 +8,13 @@
 | 6×6 | Stable |
 | Diagonal (Sudoku X) | Stable |
 | Hyper Sudoku | Stable |
+| Windoku | Stable (2.1) |
+| Jigsaw | Stable (2.1) — built-in region map; custom maps via helpers |
 
 ## Planned variants
 
 | Variant | Approach | Notes |
 |---------|----------|-------|
-| Jigsaw / Irregular | Replace `buildRegionHouses` with custom region map | Same house model |
-| Windoku | Four overlapping 3×3 windows (different layout than Hyper) | House composition |
 | Samurai | Multiple grids + overlapping regions | Needs multi-grid `GridSpec` |
 | Killer | Houses + `MetaConstraint` cage sums | Requires sum validation, not just uniqueness |
 | Thermo | Meta-constraints on ordered cells | Inequality along a path |
@@ -26,7 +26,7 @@
 
 - Remove legacy `internal/` and classic-only duplicate modules
 - Deprecation warnings on top-level `validateRow` / `validateBox` when used outside classic
-- Per-variant technique heuristics for diagonal/hyper (currently reuse classic thresholds)
+- Per-variant technique heuristics for diagonal/hyper/windoku/jigsaw (currently reuse classic thresholds)
 
 ### Medium term
 

@@ -32,6 +32,8 @@ Uniqueness constraints map to **houses**: fixed sets of cells where digits must 
 | 6×6 | Same pattern on 6×6 grid |
 | Diagonal | Classic + main + anti diagonal |
 | Hyper | Classic + four edge-centered 3×3 windows |
+| Windoku | Classic + four inner-corner 3×3 windows |
+| Jigsaw | 9 rows + 9 columns + 9 irregular regions (no 3×3 boxes) |
 
 Future work that goes beyond simple uniqueness uses **meta-constraints** (cage sums, inequalities). `MetaConstraint` is defined in `core/variant.ts` but not wired yet.
 

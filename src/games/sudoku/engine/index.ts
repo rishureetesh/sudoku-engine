@@ -39,9 +39,22 @@ export {
   SIX_BY_SIX_VARIANT,
   DIAGONAL_VARIANT,
   HYPER_VARIANT,
+  WINDOKU_VARIANT,
+  JIGSAW_VARIANT,
   getVariant,
   listVariants,
 } from "./variants/registry.js";
+
+export {
+  DEFAULT_JIGSAW_REGION_MAP,
+  buildIrregularRegionHouses,
+  buildWindokuRegionHouses,
+  buildHyperRegionHouses,
+  jigsawSudokuHouses,
+  windokuSudokuHouses,
+  hyperSudokuHouses,
+  composeHouses,
+} from "./core/houses.js";
 
 export {
   BOX_SIZE,
